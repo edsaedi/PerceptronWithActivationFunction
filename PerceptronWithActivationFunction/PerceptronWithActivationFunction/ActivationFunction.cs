@@ -4,23 +4,23 @@ using System.Text;
 
 namespace PerceptronWithActivationFunction
 {
-    class ActivationFunction
+    public class ActivationFunction
     {
         Func<double, double> function;
         Func<double, double> derivative;
         public ActivationFunction(Func<double, double> function, Func<double, double> derivative)
         {
-
+            this.function = function;
         }
 
         public double Function(double input)
         {
-            return 0;
+            return function.Invoke(input);
         }
 
         public double Derivative(double input)
         {
-            return 0;
+            return derivative.Invoke(input);
         }
     }
 }

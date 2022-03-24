@@ -11,8 +11,9 @@ namespace PerceptronWithActivationFunction
         double mutationAmount;
         Random random;
         Func<double, double, double> errorFunc;
+        ActivationFunction activationFunction;
 
-        public Perceptron(double[] initialWeightValues, double initialBiasValue, double mutationAmount, Random random, Func<double, double, double> errorFunc)
+        public Perceptron(double[] initialWeightValues, double initialBiasValue, double mutationAmount, Random random, Func<double, double, double> errorFunc, Func<double, double> function, ActivationFunction activationFunction)
         {
             /*initializes the perceptron*/
             weights = initialWeightValues;
@@ -20,16 +21,19 @@ namespace PerceptronWithActivationFunction
             this.mutationAmount = mutationAmount;
             this.random = random;
             this.errorFunc = errorFunc;
+            this.activationFunction = activationFunction;
         }
 
-        public Perceptron(int amountOfInputs, double mutationAmount, Random random, Func<double, double, double> errorFunc)
+        public Perceptron(int amountOfInputs, double mutationAmount, Random random, Func<double, double, double> errorFunc, ActivationFunction activationFunction)
         {
             /*Initializes the weights array given the amount of inputs*/
             this.mutationAmount = mutationAmount;
             this.random = random;
             this.errorFunc = errorFunc;
+            this.activationFunction = activationFunction;
 
             weights = new double[amountOfInputs];
+
         }
 
         public void Randomize(Random random, double min, double max)
@@ -54,7 +58,7 @@ namespace PerceptronWithActivationFunction
                 result += (weights[i] * inputs[i]);
             }
 
-            return result;
+            return activationFunction.Function(result);
         }
 
         public double[] Compute(double[][] inputs)
@@ -64,7 +68,7 @@ namespace PerceptronWithActivationFunction
 
             for (int i = 0; i <= result.Length - 1; i++)
             {
-                result[i] = Compute(inputs[i]);
+                result[i] = activationFunction.Function(Compute(inputs[i]));
             }
 
             return result;
